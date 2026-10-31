@@ -51,17 +51,29 @@ class ArtistController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $artist = Artist::find($id);
+
+        return view('artist.edit',[
+            'artist' => $artist,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'firstname' => 'required|max:60',
+            'lastname' => 'required|max:60',
+        ]);
+
+        $artist = Artist::find($id);
+
+        $artist->update($validated);
+
+        return view('artist.show',[
+            'artist' => $artist,
+        ]);
     }
 
     /**
